@@ -28,7 +28,7 @@ class Joke(db.Model):
     __table_args__ = db.UniqueConstraint('text', 'user_id')
 
     id = db.Column(db.Integer(), primary_key=True)
-    text = db.Column(db.Unicode(255), nullable=False)
+    text = db.Column(db.Unicode(400), nullable=False)
     user_id = db.Column(None, db.ForeignKey('users.id'), nullable=False)
 
     def is_joke_owner(self, user):
