@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  # Aiohttp-app with api.
+  aiohttp:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 127.0.0.1:8000:80
+    networks:
+      - internal
+    depends_on:
+      - postgres
+    working_dir: /app
+    command: python app.py
+    stdin_open: true
+    tty: true
+    command: bash -c "python -m pytest && python app.py"
+
+  # Postgres database.
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'gino' 
+    networks:
+      - internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Postgres TEST
+  postgres-test:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'gino'
+    networks:
+      - internal
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
+networks:
+  internal:
+
+volumes:
+  postgres_data:
+  postgres_test_data:
