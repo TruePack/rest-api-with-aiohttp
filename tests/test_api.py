@@ -83,6 +83,6 @@ async def test_delete_joke(client):
 
     del_resp = await client.delete(
         '/api/v1/jokes/1/',
-        headers={"authorization": token}) 
+        headers={"authorization": token})
 
     assert del_resp.status == 204
